@@ -1,18 +1,15 @@
 # GitBucket MCP Plugin
 
-Enables AI agents to manage GitBucket projects using MCP (Model Context Protocol).
+MCP (Model Context Protocol) plugin for GitBucket that enables AI agents to manage projects programmatically.
 
 ## Purpose
 
-Provides MCP endpoints for AI agents to:
+Provides API endpoints for MCP servers to interact with GitBucket:
 
-- Plan and track implementation through GitBucket issues
-- Manage issue lifecycle (create, update, close)
-- Track multi-phase specs via sub-issue hierarchies
-- Control workflow states with labels and assignees
-- Automate issue closure when PRs merge to any branch
-
-AI agents use MCP tools to interact with GitBucket programmatically during software development workflows.
+- Create, update, close issues
+- Manage labels and assignees  
+- Automate issue closure on PR merge
+- Track implementation through issue hierarchies
 
 ## Build
 
@@ -30,27 +27,23 @@ cp build/libs/gitbucket-mcp-plugin-0.1.0.jar $GITBUCKET_HOME/plugins/
 
 Restart GitBucket.
 
-## MCP Endpoints
-
-### Issue Management
+## API Endpoints
 
 ```
 PATCH /api/mcp/v1/repos/:owner/:repo/issues/:number
-PUT   /api/mcp/v1/repos/:owner/:repo/issues/:number/labels
+PUT   /api/mcp/v1/repos/:owner/:repo/issues/:number/labels  
 POST  /api/mcp/v1/repos/:owner/:repo/issues/:number/assignees
 ```
 
-### Workflow Automation
+## Autoclose
 
-- Autoclose issues from PRs merging to any branch (not just default)
-- Extract close keywords from PR title, body, and commit messages
+Issues referenced in PR descriptions close automatically on merge to any branch:
 
-## AI Agent Workflows Supported
-
-- Spec-driven development with issue tracking
-- Three-branch workflow (`feature/*` → `dev` → `main`)
-- Sub-issue hierarchies for multi-phase implementations
-- Label-based workflow state management
+```
+Fixes #123
+Closes #456
+Resolves #789
+```
 
 ## License
 
