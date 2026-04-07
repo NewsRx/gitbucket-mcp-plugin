@@ -1,15 +1,16 @@
 # GitBucket MCP Plugin
 
-MCP (Model Context Protocol) plugin for GitBucket that enables AI agents to manage projects programmatically.
+MCP (Model Context Protocol) server for GitBucket. Enables AI agents to communicate with GitBucket via MCP protocol.
 
-## Purpose
+## What This Does
 
-Provides API endpoints for MCP servers to interact with GitBucket:
+Exposes GitBucket's issue tracking and project management capabilities through MCP:
 
-- Create, update, close issues
-- Manage labels and assignees  
-- Automate issue closure on PR merge
-- Track implementation through issue hierarchies
+- MCP tools for issue operations (create, update, close, search)
+- MCP resources for repository and issue data access  
+- MCP prompts for common GitBucket workflows
+
+AI agents connect via MCP (SSE or stdio), not REST API.
 
 ## Build
 
@@ -27,23 +28,15 @@ cp build/libs/gitbucket-mcp-plugin-0.1.0.jar $GITBUCKET_HOME/plugins/
 
 Restart GitBucket.
 
-## API Endpoints
+## MCP Protocol
 
-```
-PATCH /api/mcp/v1/repos/:owner/:repo/issues/:number
-PUT   /api/mcp/v1/repos/:owner/:repo/issues/:number/labels  
-POST  /api/mcp/v1/repos/:owner/:repo/issues/:number/assignees
-```
+This plugin implements MCP server capabilities:
 
-## Autoclose
+- **Tools**: Issue CRUD operations, label management, assignee assignment
+- **Resources**: Repository listing, issue search, file contents
+- **Prompts**: Workflow templates for spec planning and implementation tracking
 
-Issues referenced in PR descriptions close automatically on merge to any branch:
-
-```
-Fixes #123
-Closes #456
-Resolves #789
-```
+AI agents discover and invoke these capabilities through MCP protocol negotiation.
 
 ## License
 
