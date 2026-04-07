@@ -5,15 +5,15 @@ Fixes API deficiencies and autoclose limitations.
 ## Build
 
 ```bash
-sbt assembly
+./gradlew shadowJar
 ```
 
-Output: `target/scala-2.13/gitbucket-mcp-plugin-assembly-0.1.0.jar`
+Output: `build/libs/gitbucket-mcp-plugin-0.1.0.jar`
 
 ## Install
 
 ```bash
-cp target/scala-2.13/gitbucket-mcp-plugin-assembly-0.1.0.jar $GITBUCKET_HOME/plugins/
+cp build/libs/gitbucket-mcp-plugin-0.1.0.jar $GITBUCKET_HOME/plugins/
 ```
 
 Restart GitBucket.
