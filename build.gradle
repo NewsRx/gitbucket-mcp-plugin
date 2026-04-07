@@ -25,6 +25,17 @@ scala {
     scalaVersion = '2.13.18'
 }
 
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/main/scala', 'src/main/java']
+        }
+        java {
+            srcDirs = []  // Java sources are compiled by Scala compiler
+        }
+    }
+}
+
 shadowJar {
     archiveClassifier.set('')
     mergeServiceFiles()
