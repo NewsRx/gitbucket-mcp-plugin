@@ -1,17 +1,18 @@
-# GitBucket AI Agent Enablement Plugin
+# GitBucket MCP Plugin
 
-Enables AI agents to manage GitBucket projects using MCP tools designed for GitHub.
+Enables AI agents to manage GitBucket projects using MCP (Model Context Protocol).
 
 ## Purpose
 
-This plugin provides GitBucket compatibility for AI agents using GitHub-based MCP tools:
+Provides MCP endpoints for AI agents to:
 
-- **Spec Planning**: Create, update, close issues programmatically
-- **Workflow Tracking**: Manage issue states, labels, assignees
-- **Sub-issue Management**: Track multi-phase implementations via issue hierarchies
-- **PR Integration**: Automatic issue closure on merge across all branches
+- Plan and track implementation through GitBucket issues
+- Manage issue lifecycle (create, update, close)
+- Track multi-phase specs via sub-issue hierarchies
+- Control workflow states with labels and assignees
+- Automate issue closure when PRs merge to any branch
 
-AI agents use GitHub MCP tools (like `github_issue_write`, `github_create_pull_request`) against GitBucket. This plugin provides the missing API endpoints and workflow automation.
+AI agents use MCP tools to interact with GitBucket programmatically during software development workflows.
 
 ## Build
 
@@ -29,53 +30,27 @@ cp build/libs/gitbucket-mcp-plugin-0.1.0.jar $GITBUCKET_HOME/plugins/
 
 Restart GitBucket.
 
-## AI Agent Workflow Support
+## MCP Endpoints
 
-### Issue Lifecycle Management
+### Issue Management
 
-Create, update, and close issues during implementation:
-
-- PATCH `/api/v3/repos/:owner/:repo/issues/:number` - Update issue state, title, body
-- PUT `/api/v3/repos/:owner/:repo/issues/:number/labels` - Add/remove workflow labels
-- POST `/api/v3/repos/:owner/:repo/issues/:number/assignees` - Assign reviewers/owners
-
-### Spec Tracking
-
-Enable AI agents to track specs via issues:
-
-- Create parent specification issues
-- Link sub-issues for implementation phases
-- Close parent when all phases complete
-- Use labels for workflow states (`needs-approval`, `approved`, `in-progress`, `review`)
-
-### Three-Branch Workflow
-
-Support for `feature/*` → `dev` → `main` workflow:
-
-- Merge PR to any branch triggers autoclose
-- Issue references in PR descriptions work on `dev` and feature branches
-- Sub-issues close automatically when implementation merges
-
-### MCP Tool Compatibility
-
-AI agents using GitHub MCP tools can interact with GitBucket as if it were GitHub:
-
-```python
-# AI agent code - works for both GitHub and GitBucket
-github_issue_write(method="update", issue_number=123, state="closed")
-github_create_pull_request(title="Fix bug", head="feature/fix", base="dev")
+```
+PATCH /api/mcp/v1/repos/:owner/:repo/issues/:number
+PUT   /api/mcp/v1/repos/:owner/:repo/issues/:number/labels
+POST  /api/mcp/v1/repos/:owner/:repo/issues/:number/assignees
 ```
 
-## Configuration
+### Workflow Automation
 
-Plugin works out of the box. Optional configuration in `$GITBUCKET_HOME/plugins/mcp-plugin.conf`:
+- Autoclose issues from PRs merging to any branch (not just default)
+- Extract close keywords from PR title, body, and commit messages
 
-```hocon
-mcp-plugin {
-  autoclose.enabled = true
-  api.endpoints.enabled = true
-}
-```
+## AI Agent Workflows Supported
+
+- Spec-driven development with issue tracking
+- Three-branch workflow (`feature/*` → `dev` → `main`)
+- Sub-issue hierarchies for multi-phase implementations
+- Label-based workflow state management
 
 ## License
 
