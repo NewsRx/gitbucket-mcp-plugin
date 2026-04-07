@@ -1,0 +1,33 @@
+plugins {
+    id('scala')
+    id('com.github.johnrengelman.shadow') version '8.1.1'
+}
+
+group = 'com.newsrx'
+version = '0.1.0'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/releases/' }
+}
+
+dependencies {
+    implementation 'org.scala-lang:scala-library:2.13.18'
+    compileOnly 'io.github.gitbucket:gitbucket_2.13:4.46.0'
+    compileOnly 'org.scalatra:scalatra-javax_2.13:3.1.2'
+    compileOnly 'io.github.json4s:json4s-jackson_2.13:4.1.0'
+    compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+    
+    testImplementation 'org.scalatest:scalatest_2.13:3.2.18'
+}
+
+scala {
+    scalaVersion = '2.13.18'
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    mergeServiceFiles()
+}
+
+tasks.build.dependsOn shadowJar
